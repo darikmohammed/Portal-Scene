@@ -44,15 +44,28 @@ portalTexture.encoding = THREE.sRGBEncoding;
  */
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: portalTexture });
 const lampMaterial = new THREE.MeshBasicMaterial({ color: 0x5db3f9 });
+const portalMaterial = new THREE.MeshBasicMaterial({ color: 0xeb48dc });
 
 /**
  * Model
  */
 gltfLoader.load('PortalScene.glb', (gltf) => {
   gltf.scene.traverse((child) => {
-    console.log(child.name);
     child.material = bakedMaterial;
   });
+  let pole_light_one = gltf.scene.children.find(
+    (child) => child.name == 'pole_light_one'
+  );
+  let pole_light_two = gltf.scene.children.find(
+    (child) => child.name == 'pole_light_two'
+  );
+  let portal_light = gltf.scene.children.find(
+    (child) => child.name == 'portal_light'
+  );
+
+  pole_light_one.material = lampMaterial;
+  pole_light_two.material = lampMaterial;
+  portal_light.material = portalMaterial;
   scene.add(gltf.scene);
 });
 
