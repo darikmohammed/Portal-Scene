@@ -43,12 +43,14 @@ portalTexture.encoding = THREE.sRGBEncoding;
  * Materials
  */
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: portalTexture });
+const lampMaterial = new THREE.MeshBasicMaterial({ color: 0x5db3f9 });
 
 /**
  * Model
  */
 gltfLoader.load('PortalScene.glb', (gltf) => {
   gltf.scene.traverse((child) => {
+    console.log(child.name);
     child.material = bakedMaterial;
   });
   scene.add(gltf.scene);
