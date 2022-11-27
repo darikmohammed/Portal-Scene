@@ -34,6 +34,16 @@ const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
 /**
+ * Model 
+ */
+gltfLoader.load({
+    'PortalScene.glb', 
+    (gltf)=>{
+        console.log(gltf);
+    }
+})
+
+/**
  * Object
  */
 const cube = new THREE.Mesh(
