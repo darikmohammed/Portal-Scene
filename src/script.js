@@ -73,13 +73,33 @@ gltfLoader.load('PortalScene.glb', (gltf) => {
 /**
  * Fire Flies
  */
-const fireFliesGeomerty = new THREE.BufferGeometry();
+
+//Geometry
+const fireFliesGeometry = new THREE.BufferGeometry();
 const fireFliesCount = 30;
 const positionArray = new Float32Array(fireFliesCount * 3);
 
-for(let i=0; i<fireFliesCount ; i++){
-  
+for (let i = 0; i < fireFliesCount; i++) {
+  positionArray[i * 3 + 0] = (Math.random() - 0.5) * 4;
+  positionArray[i * 3 + 1] = Math.random() * 1.5;
+  positionArray[i * 3 + 2] = (Math.random() - 0.5) * 4;
 }
+fireFliesGeometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(positionArray, 3)
+);
+
+//Material
+
+const fireFliesMaterial = new THREE.PointsMaterial({
+  color: 0x888888,
+  size: 0.1,
+  sizeAttenuation: true,
+});
+
+const fireFlies = new THREE.Points(fireFliesGeometry, fireFliesMaterial);
+
+scene.add(fireFlies);
 
 /**
  * Sizes
