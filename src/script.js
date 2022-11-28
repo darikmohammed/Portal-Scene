@@ -5,6 +5,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
+import fireFliesVertexShader from './shaders/fireFlies/vertex.glsl';
+import fireFliesFragmentShader from './shaders/fireFlies/fragment.glsl';
+
 /**
  * Base
  */
@@ -91,13 +94,23 @@ fireFliesGeometry.setAttribute(
 
 //Material
 
-const fireFliesMaterial = new THREE.PointsMaterial({
-  color: 0x888888,
-  size: 0.1,
-  sizeAttenuation: true,
+const fireFliesMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+    uPointSize: { value: 100 },
+  },
+  vertexShader: fireFliesVertexShader,
+  fragmentShader: fireFliesFragmentShader,
+  transparent: true,
 });
 
 const fireFlies = new THREE.Points(fireFliesGeometry, fireFliesMaterial);
+gui
+  .add(fireFliesMaterial.uniforms.uPointSize, 'value')
+  .min(0)
+  .max(500)
+  .step(1)
+  .name('Fire Flies Size');
 
 scene.add(fireFlies);
 
@@ -121,6 +134,11 @@ window.addEventListener('resize', () => {
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  fireFliesMaterial.uniforms.uPixelRatio.value = Math.min(
+    window.devicePixelRatio,
+    2
+  );
 });
 
 /**
