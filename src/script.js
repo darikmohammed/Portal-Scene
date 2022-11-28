@@ -48,7 +48,7 @@ portalTexture.encoding = THREE.sRGBEncoding;
 /**
  * Materials
  */
-debugObject.colorStart = '#d8abc8';
+debugObject.colorStart = '#d9d3d7';
 debugObject.colorEnd = '#d289bb';
 
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: portalTexture });

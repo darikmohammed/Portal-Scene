@@ -89,6 +89,8 @@ void main(){
   
   strength += step(-0.3, strength) * 0.8; 
 
+  strength = clamp(strength, 0.0, 1.0);
+
   vec3 color = mix(uColorStart, uColorEnd, strength);
   gl_FragColor = vec4(color,1.0);
 }
