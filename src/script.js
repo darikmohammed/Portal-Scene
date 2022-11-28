@@ -7,6 +7,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
 import fireFliesVertexShader from './shaders/fireFlies/vertex.glsl';
 import fireFliesFragmentShader from './shaders/fireFlies/fragment.glsl';
+import { AdditiveBlending } from 'three';
 
 /**
  * Base
@@ -81,15 +82,21 @@ gltfLoader.load('PortalScene.glb', (gltf) => {
 const fireFliesGeometry = new THREE.BufferGeometry();
 const fireFliesCount = 30;
 const positionArray = new Float32Array(fireFliesCount * 3);
+const pointScale = new Float32Array(fireFliesCount);
 
 for (let i = 0; i < fireFliesCount; i++) {
   positionArray[i * 3 + 0] = (Math.random() - 0.5) * 4;
   positionArray[i * 3 + 1] = Math.random() * 1.5;
   positionArray[i * 3 + 2] = (Math.random() - 0.5) * 4;
+  pointScale[i] = Math.random();
 }
 fireFliesGeometry.setAttribute(
   'position',
   new THREE.BufferAttribute(positionArray, 3)
+);
+fireFliesGeometry.setAttribute(
+  'aScale',
+  new THREE.BufferAttribute(pointScale, 1)
 );
 
 //Material
@@ -102,6 +109,8 @@ const fireFliesMaterial = new THREE.ShaderMaterial({
   vertexShader: fireFliesVertexShader,
   fragmentShader: fireFliesFragmentShader,
   transparent: true,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
 });
 
 const fireFlies = new THREE.Points(fireFliesGeometry, fireFliesMaterial);
