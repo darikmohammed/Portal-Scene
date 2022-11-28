@@ -9,6 +9,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
  * Base
  */
 // Debug
+const debugObject = {};
 const gui = new dat.GUI({
   width: 400,
 });
@@ -70,6 +71,17 @@ gltfLoader.load('PortalScene.glb', (gltf) => {
 });
 
 /**
+ * Fire Flies
+ */
+const fireFliesGeomerty = new THREE.BufferGeometry();
+const fireFliesCount = 30;
+const positionArray = new Float32Array(fireFliesCount * 3);
+
+for(let i=0; i<fireFliesCount ; i++){
+  
+}
+
+/**
  * Sizes
  */
 const sizes = {
@@ -120,7 +132,12 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputEncoding = THREE.sRGBEncoding;
+debugObject.clearColor = '#544f4f';
 
+renderer.setClearColor(debugObject.clearColor);
+gui.addColor(debugObject, 'clearColor').onChange(() => {
+  renderer.setClearColor(debugObject.clearColor);
+});
 /**
  * Animate
  */
